@@ -1,0 +1,145 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Registered parent or caregiver profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["parent", "caregiver", "therapist"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "email", "role"]
+    },
+    "Child": {
+      "title": "Child",
+      "description": "Child profile tracked by the parent",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "parentId": { "type": "string" },
+        "name": { "type": "string" },
+        "age": { "type": "number" },
+        "communicationStyle": { "type": "string" },
+        "sensoryPreference": { "type": "string" },
+        "specialInterest": { "type": "string" },
+        "calmingTools": { "type": "array", "items": { "type": "string" } },
+        "sensoryTriggers": { "type": "array", "items": { "type": "string" } },
+        "therapistName": { "type": "string" },
+        "clinicName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "parentId", "name"]
+    },
+    "Goal": {
+      "title": "Goal",
+      "description": "Therapy goal or home exercise assigned to child",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "childId": { "type": "string" },
+        "parentId": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "frequency": { "type": "string" },
+        "durationMinutes": { "type": "number" },
+        "therapistTips": { "type": "string" },
+        "equipmentNeeded": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "childId", "parentId", "title"]
+    },
+    "ProgressLog": {
+      "title": "ProgressLog",
+      "description": "Daily home session log recorded by parent",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "childId": { "type": "string" },
+        "parentId": { "type": "string" },
+        "goalId": { "type": "string" },
+        "goalTitle": { "type": "string" },
+        "status": { "type": "string", "enum": ["Done", "Partial", "Skip"] },
+        "regulationRating": { "type": "number" },
+        "mood": { "type": "string" },
+        "notes": { "type": "string" },
+        "caregiverName": { "type": "string" },
+        "date": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "childId", "parentId", "status"]
+    },
+    "WeeklySummary": {
+      "title": "WeeklySummary",
+      "description": "Clinical weekly summary and discussion points for therapist visits",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "childId": { "type": "string" },
+        "parentId": { "type": "string" },
+        "childName": { "type": "string" },
+        "weekLabel": { "type": "string" },
+        "totalSessions": { "type": "number" },
+        "adherencePercent": { "type": "number" },
+        "averageRegulation": { "type": "number" },
+        "celebrations": { "type": "array", "items": { "type": "string" } },
+        "sensoryPatterns": { "type": "array", "items": { "type": "string" } },
+        "therapistQuestions": { "type": "array", "items": { "type": "string" } },
+        "parentObservations": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "childId", "parentId", "weekLabel"]
+    },
+    "DailyPulse": {
+      "title": "DailyPulse",
+      "description": "Daily one-question sentiment check regarding the child's sensory and emotional regulation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "childId": { "type": "string" },
+        "parentId": { "type": "string" },
+        "childName": { "type": "string" },
+        "date": { "type": "string" },
+        "sentiment": { "type": "string" },
+        "sentimentLabel": { "type": "string" },
+        "score": { "type": "number" },
+        "triggers": { "type": "array", "items": { "type": "string" } },
+        "note": { "type": "string" },
+        "emailedTo": { "type": "string" },
+        "emailSent": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "childId", "parentId", "date", "sentiment", "score"]
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": "UserProfile",
+      "description": "Parent and caregiver profiles"
+    },
+    "children": {
+      "schema": "Child",
+      "description": "Child profiles created by parents"
+    },
+    "goals": {
+      "schema": "Goal",
+      "description": "Therapy goals per child"
+    },
+    "progressLogs": {
+      "schema": "ProgressLog",
+      "description": "Daily home progress records"
+    },
+    "weeklySummaries": {
+      "schema": "WeeklySummary",
+      "description": "Clinic-ready synthesized reports"
+    },
+    "dailyPulses": {
+      "schema": "DailyPulse",
+      "description": "Daily emotional & sensory sentiment records"
+    }
+  }
+}

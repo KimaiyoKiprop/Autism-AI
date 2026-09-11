@@ -1,0 +1,6 @@
+{
+  "name": "Autism Child Bridge",
+  "description": "A parent app for tracking an autistic child's therapy exercises and progress at home, with AI-generated summaries, smart reminders, and shareable reports designed to support the family's existing therapist relationship.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Child records
+    match /children/{childId} {
+      allow read: if isAuthenticated() && (resource == null || resource.data.parentId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.parentId == request.auth.uid;
+      allow update, delete: if isAuthenticated() && resource.data.parentId == request.auth.uid;
+    }
+
+    // Therapy Goals
+    match /goals/{goalId} {
+      allow read: if isAuthenticated() && (resource == null || resource.data.parentId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.parentId == request.auth.uid;
+      allow update, delete: if isAuthenticated() && resource.data.parentId == request.auth.uid;
+    }
+
+    // Progress Logs
+    match /progressLogs/{logId} {
+      allow read: if isAuthenticated() && (resource == null || resource.data.parentId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.parentId == request.auth.uid;
+      allow update, delete: if isAuthenticated() && resource.data.parentId == request.auth.uid;
+    }
+
+    // Weekly Summaries
+    match /weeklySummaries/{summaryId} {
+      allow read: if isAuthenticated() && (resource == null || resource.data.parentId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.parentId == request.auth.uid;
+      allow update, delete: if isAuthenticated() && resource.data.parentId == request.auth.uid;
+    }
+
+    // Daily Sentiment Pulses
+    match /dailyPulses/{pulseId} {
+      allow read: if isAuthenticated() && (resource == null || resource.data.parentId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.parentId == request.auth.uid;
+      allow update, delete: if isAuthenticated() && resource.data.parentId == request.auth.uid;
+    }
+  }
+}
